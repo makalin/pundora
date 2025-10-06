@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎭 Pundora Dashboard - Advanced Features</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dad-blue': '#1e40af',
+                        'dad-yellow': '#fbbf24',
+                        'dad-orange': '#f97316'
+                    }
+                }
+            }
+        }
+        </script>
+    <style>
+        .dad-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #fbbf24 50%, #f97316 100%);
+        }
+        .feature-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100">
+    <!-- Navigation -->
+    <nav class="dad-gradient shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl font-bold text-white">🎭 Pundora Dashboard</h1>
+                <div class="flex space-x-4">
+                    <button onclick="showTab('jokes')" class="nav-btn px-4 py-2 rounded-lg text-white hover:bg-white/20 transition">Jokes</button>
+                    <button onclick="showTab('analytics')" class="nav-btn px-4 py-2 rounded-lg text-white hover:bg-white/20 transition">Analytics</button>
+                    <button onclick="showTab('competitions')" class="nav-btn px-4 py-2 rounded-lg text-white hover:bg-white/20 transition">Competitions</button>
+                    <button onclick="showTab('settings')" class="nav-btn px-4 py-2 rounded-lg text-white hover:bg-white/20 transition">Settings</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Jokes Tab -->
+        <div id="jokes-tab" class="tab-content">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Joke Generator -->
+                <div class="lg:col-span-2">
+                    <div class="feature-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">🎭 Advanced Joke Generator</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">📂 Category</label>
+                                <select id="category" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dad-blue">
+                                    <option value="general">General</option>
+                                    <option value="puns">Puns</option>
+                                    <option value="knock-knock">Knock-Knock</option>
+                                    <option value="wordplay">Wordplay</option>
+                                    <option value="dad-classics">Dad Classics</option>
+                                    <option value="food">Food</option>
+                                    <option value="animals">Animals</option>
+                                    <option value="technology">Technology</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">😄 Humor Level</label>
+                                <select id="humorLevel" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dad-blue">
+                                    <option value="mild">Mild</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="extra">Extra Cringe</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">🎙️ Voice Type</label>
+                                <select id="voiceType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dad-blue">
+                                    <option value="dad">Dad Voice</option>
+                                    <option value="robot">Robot Voice</option>
+                                    <option value="dramatic">Dramatic Voice</option>
+                                    <option value="cheerful">Cheerful Voice</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" id="enableVoice" class="w-5 h-5 text-dad-blue">
+                                    <span class="text-sm font-medium text-gray-700">🔊 Enable Voice</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">✍️ Custom Prompt</label>
+                            <input type="text" id="customPrompt" placeholder="Enter a custom prompt..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dad-blue">
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="generateJoke()" class="bg-dad-blue hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                                🎭 Generate Joke
+                            </button>
+                            <button onclick="generateWithVoice()" class="bg-dad-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                                🔊 Joke + Voice
+                            </button>
+                            <button onclick="translateJoke()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                                🌍 Translate
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Joke Display -->
+                    <div id="jokeContainer" class="feature-card rounded-2xl p-8 mb-8 hidden">
+                        <div class="text-center">
+                            <h3 class="text-xl font-semibold text-gray-700 mb-4">🎭 Your Dad Joke</h3>
+                            <div id="jokeText" class="text-2xl font-medium text-gray-800 mb-4"></div>
+                            <div id="jokeMeta" class="text-sm text-gray-600 mb-4"></div>
+                            <div id="audioPlayer" class="hidden mb-4">
+                                <audio controls class="w-full max-w-md mx-auto">
+                                    <source id="audioSource" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <button onclick="rateJoke(5)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">⭐ Rate 5</button>
+                                <button onclick="rateJoke(4)" class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-lg">⭐ Rate 4</button>
+                                <button onclick="rateJoke(3)" class="bg-yellow-300 hover:bg-yellow-400 text-white px-4 py-2 rounded-lg">⭐ Rate 3</button>
+                                <button onclick="toggleFavorite()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">❤️ Favorite</button>
+                                <button onclick="shareJoke()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">📤 Share</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Statistics -->
+                    <div class="feature-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">📊 Statistics</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Total Jokes:</span>
+                                <span class="font-bold text-dad-blue" id="totalJokes">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Favorites:</span>
+                                <span class="font-bold text-red-500" id="favorites">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Rating:</span>
+                                <span class="font-bold text-yellow-500" id="avgRating">0.0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Jokes -->
+                    <div class="feature-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">🕒 Recent Jokes</h3>
+                        <div id="recentJokes" class="space-y-2">
+                            <p class="text-gray-500 text-sm">No recent jokes</p>
+                        </div>
+                    </div>
+
+                    <!-- Favorites -->
+                    <div class="feature-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">❤️ Favorites</h3>
+                        <div id="favoriteJokes" class="space-y-2">
+                            <p class="text-gray-500 text-sm">No favorites yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics-tab" class="tab-content hidden">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="feature-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">📈 Performance Metrics</h3>
+                    <canvas id="performanceChart" width="400" height="200"></canvas>
+                </div>
+                <div class="feature-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">🎯 Category Distribution</h3>
+                    <canvas id="categoryChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competitions Tab -->
+        <div id="competitions-tab" class="tab-content hidden">
+            <div class="feature-card rounded-2xl p-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">🏆 Joke Competitions</h3>
+                <div id="competitionsList" class="space-y-4">
+                    <p class="text-gray-500">Loading competitions...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="tab-content hidden">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="feature-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">⚙️ User Settings</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">User ID</label>
+                            <input type="text" id="userId" value="user_123" class="w-full p-3 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email for Notifications</label>
+                            <input type="email" id="userEmail" placeholder="your@email.com" class="w-full p-3 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Language</label>
+                            <select id="preferredLanguage" class="w-full p-3 border border-gray-300 rounded-lg">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">🔧 System Settings</h3>
+                    <div class="space-y-4">
+                        <button onclick="clearCache()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                            🗑️ Clear Cache
+                        </button>
+                        <button onclick="exportData()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                            📤 Export Data
+                        </button>
+                        <button onclick="importData()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                            📥 Import Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentJoke = null;
+        let currentJokeId = null;
+        let userId = 'user_123';
+
+        // Tab management
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/20');
+            });
+            event.target.classList.add('bg-white/20');
+        }
+
+        // Joke generation
+        async function generateJoke() {
+            const category = document.getElementById('category').value;
+            const humorLevel = document.getElementById('humorLevel').value;
+            const customPrompt = document.getElementById('customPrompt').value;
+
+            try {
+                let url = `/api/joke?category=${category}&humor_level=${humorLevel}`;
+                if (customPrompt) {
+                    url += `&custom_prompt=${encodeURIComponent(customPrompt)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                displayJoke(data);
+                currentJoke = data;
+                
+                // Save to database and get ID
+                const saveResponse = await fetch('/api/joke', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                const savedJoke = await saveResponse.json();
+                currentJokeId = savedJoke.id || Math.floor(Math.random() * 1000); // Fallback ID
+                
+            } catch (error) {
+                console.error('Error generating joke:', error);
+                alert('Failed to generate joke. Please try again.');
+            }
+        }
+
+        async function generateWithVoice() {
+            await generateJoke();
+            if (currentJoke) {
+                await generateVoice();
+            }
+        }
+
+        async function generateVoice() {
+            if (!currentJoke) return;
+
+            try {
+                const voiceType = document.getElementById('voiceType').value;
+                const response = await fetch(`/api/voice?text=${encodeURIComponent(currentJoke.joke)}&voice=${voiceType}`);
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    const audioSource = document.getElementById('audioSource');
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    
+                    audioSource.src = audioUrl;
+                    audioPlayer.classList.remove('hidden');
+                    
+                    const audio = audioPlayer.querySelector('audio');
+                    audio.load();
+                    audio.play().catch(e => console.log('Auto-play prevented:', e));
+                }
+            } catch (error) {
+                console.error('Error generating voice:', error);
+            }
+        }
+
+        function displayJoke(data) {
+            document.getElementById('jokeText').textContent = data.joke;
+            document.getElementById('jokeMeta').innerHTML = `
+                <span class="inline-block bg-dad-blue text-white px-3 py-1 rounded-full text-xs mr-2">${data.category}</span>
+                <span class="inline-block bg-dad-orange text-white px-3 py-1 rounded-full text-xs mr-2">${data.humor_level}</span>
+                <span class="inline-block bg-gray-500 text-white px-3 py-1 rounded-full text-xs">${data.source}</span>
+            `;
+            document.getElementById('jokeContainer').classList.remove('hidden');
+        }
+
+        // Rating and favorites
+        async function rateJoke(rating) {
+            if (!currentJokeId) return;
+
+            try {
+                await fetch(`/api/jokes/${currentJokeId}/rate`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ rating, comment: '' })
+                });
+                alert(`Joke rated ${rating} stars!`);
+            } catch (error) {
+                console.error('Error rating joke:', error);
+            }
+        }
+
+        async function toggleFavorite() {
+            if (!currentJokeId) return;
+
+            try {
+                await fetch(`/api/jokes/${currentJokeId}/favorite`, { method: 'POST' });
+                alert('Favorite status updated!');
+            } catch (error) {
+                console.error('Error updating favorite:', error);
+            }
+        }
+
+        async function shareJoke() {
+            if (!currentJokeId) return;
+
+            try {
+                const response = await fetch(`/api/jokes/${currentJokeId}/share`);
+                const shareData = await response.json();
+                
+                // Copy share URL to clipboard
+                await navigator.clipboard.writeText(shareData.share_url);
+                alert('Share URL copied to clipboard!');
+            } catch (error) {
+                console.error('Error sharing joke:', error);
+            }
+        }
+
+        // Translation
+        async function translateJoke() {
+            if (!currentJoke) {
+                alert('Please generate a joke first!');
+                return;
+            }
+
+            const targetLanguage = prompt('Enter target language code (e.g., es, fr, de):', 'es');
+            if (!targetLanguage) return;
+
+            try {
+                const response = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        joke: currentJoke.joke,
+                        target_language: targetLanguage,
+                        source_language: 'en'
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert(`Translated joke: ${result.translated_joke}`);
+                } else {
+                    alert('Translation failed: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error translating joke:', error);
+            }
+        }
+
+        // Settings functions
+        async function clearCache() {
+            try {
+                await fetch('/api/cache/clear', { method: 'POST' });
+                alert('Cache cleared successfully!');
+            } catch (error) {
+                console.error('Error clearing cache:', error);
+            }
+        }
+
+        async function exportData() {
+            try {
+                const response = await fetch('/api/export/jokes?format=json');
+                const data = await response.json();
+                alert(`Data exported to: ${data.filename}`);
+            } catch (error) {
+                console.error('Error exporting data:', error);
+            }
+        }
+
+        function importData() {
+            alert('Import functionality would open a file dialog in a real implementation.');
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStatistics();
+            loadRecentJokes();
+            loadFavorites();
+            loadCompetitions();
+        });
+
+        async function loadStatistics() {
+            try {
+                const response = await fetch('/api/statistics');
+                const stats = await response.json();
+                
+                document.getElementById('totalJokes').textContent = stats.total_jokes || 0;
+                document.getElementById('favorites').textContent = stats.favorite_count || 0;
+                document.getElementById('avgRating').textContent = (stats.average_rating || 0).toFixed(1);
+            } catch (error) {
+                console.error('Error loading statistics:', error);
+            }
+        }
+
+        async function loadRecentJokes() {
+            try {
+                const response = await fetch('/api/jokes?limit=5');
+                const data = await response.json();
+                
+                const container = document.getElementById('recentJokes');
+                if (data.jokes && data.jokes.length > 0) {
+                    container.innerHTML = data.jokes.map(joke => 
+                        `<div class="text-sm p-2 bg-gray-100 rounded">${joke.content.substring(0, 50)}...</div>`
+                    ).join('');
+                }
+            } catch (error) {
+                console.error('Error loading recent jokes:', error);
+            }
+        }
+
+        async function loadFavorites() {
+            try {
+                const response = await fetch('/api/favorites');
+                const data = await response.json();
+                
+                const container = document.getElementById('favoriteJokes');
+                if (data.favorites && data.favorites.length > 0) {
+                    container.innerHTML = data.favorites.map(joke => 
+                        `<div class="text-sm p-2 bg-red-50 rounded">${joke.content.substring(0, 50)}...</div>`
+                    ).join('');
+                }
+            } catch (error) {
+                console.error('Error loading favorites:', error);
+            }
+        }
+
+        async function loadCompetitions() {
+            try {
+                const response = await fetch('/api/competitions');
+                const data = await response.json();
+                
+                const container = document.getElementById('competitionsList');
+                if (data.competitions && data.competitions.length > 0) {
+                    container.innerHTML = data.competitions.map(comp => 
+                        `<div class="p-4 border rounded-lg">
+                            <h4 class="font-semibold">${comp.name}</h4>
+                            <p class="text-sm text-gray-600">${comp.description}</p>
+                            <p class="text-xs text-gray-500">Category: ${comp.category} | Level: ${comp.humor_level}</p>
+                        </div>`
+                    ).join('');
+                } else {
+                    container.innerHTML = '<p class="text-gray-500">No active competitions</p>';
+                }
+            } catch (error) {
+                console.error('Error loading competitions:', error);
+            }
+        }
+    </script>
+</body>
+</html>
